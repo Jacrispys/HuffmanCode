@@ -10,6 +10,9 @@ public class SourceSymbol {
     protected SourceSymbol mergedSymbol_A = null;
     protected SourceSymbol mergedSymbol_B = null;
 
+    public String code = "";
+
+
 
     protected SourceSymbol(String symbolName, float symbolProbability, boolean isMerged) {
         this.symbolName = symbolName;
