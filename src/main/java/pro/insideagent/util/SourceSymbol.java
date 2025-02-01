@@ -7,8 +7,8 @@ public class SourceSymbol {
     private final float symbolProbability;
     private final boolean isMerged;
 
-    private SourceSymbol mergedSymbol_A = null;
-    private SourceSymbol mergedSymbol_B = null;
+    protected SourceSymbol mergedSymbol_A = null;
+    protected SourceSymbol mergedSymbol_B = null;
 
 
     protected SourceSymbol(String symbolName, float symbolProbability, boolean isMerged) {

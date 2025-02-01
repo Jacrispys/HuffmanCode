@@ -12,7 +12,7 @@ public class HuffmanCodeList {
     }
 
     public void addSymbol(SourceSymbol symbol) {
-        symbolList.add(ListSymbol.create(symbol, symbolList.size()));
+        symbolList.add(ListSymbol.create(symbol, symbolList.size(), symbol.isMerged()));
     }
 
     public void mergeSymbols() {
