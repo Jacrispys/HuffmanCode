@@ -35,7 +35,7 @@ public class HuffmanCodeList {
 
     public void sortHuffmanList() {
         symbolList = symbolList.stream()
-                .sorted((item1, item2) -> item1.getSymbolProbability() <= item2.getSymbolProbability() ? 1 : -1)
+                .sorted((item1, item2) -> item1.getSymbolProbability() < item2.getSymbolProbability() ? 1 : item1.getSymbolProbability() == item2.getSymbolProbability() ? (item1.getSymbolName().compareTo(item2.getSymbolName())) : -1)
                 .collect(Collectors.toList());
     }
 
@@ -72,9 +72,9 @@ public class HuffmanCodeList {
             sb.append("└-- ").append(symbol.getMergedSymbolB().getSymbolName()).append(" | ").append(symbol.getMergedSymbolB().getSymbolProbability());
             sb.append("\n");
 
-            symbol.getMergedSymbolA().code = symbol.code + "0";
+            symbol.getMergedSymbolA().code = symbol.code + "1";
             sourceList.add(symbol.getMergedSymbolA());
-            symbol.getMergedSymbolB().code = symbol.code + "1";
+            symbol.getMergedSymbolB().code = symbol.code + "0";
             sourceList.add(symbol.getMergedSymbolB());
 
             return symbol;
@@ -83,16 +83,16 @@ public class HuffmanCodeList {
             sb.append("└--").append(symbol.getMergedSymbolB().getSymbolName()).append(" | ").append(symbol.getMergedSymbolB().getSymbolProbability());
             sb.append("\n");
 
-            symbol.getMergedSymbolB().code = symbol.code + "0";
+            symbol.getMergedSymbolB().code = symbol.code + "1";
             sourceList.add(symbol.getMergedSymbolB());
 
-            return traverseLeaves(symbol.getMergedSymbolA(), depth, sb, true);
+            return traverseLeaves(symbol.getMergedSymbolA(), depth, sb, false);
         } else if (!aMerged) {
             sb.append("\t".repeat(depth));
             sb.append("└--").append(symbol.getMergedSymbolA().getSymbolName()).append(" | ").append(symbol.getMergedSymbolA().getSymbolProbability());
             sb.append("\n");
 
-            symbol.getMergedSymbolB().code = symbol.code + "1";
+            symbol.getMergedSymbolA().code = symbol.code + "1";
             sourceList.add(symbol.getMergedSymbolA());
 
             return traverseLeaves(symbol.getMergedSymbolB(), depth, sb, false);

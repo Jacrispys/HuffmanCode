@@ -35,6 +35,7 @@ public class SourceSymbol {
     public static SourceSymbol mergeSymbols(SourceSymbol source1, SourceSymbol source2) {
         String sb = source1.getSymbolName() + "_" + source2.getSymbolName();
         float mergedProbability = source1.getSymbolProbability() + source2.getSymbolProbability();
+        mergedProbability = (float) (Math.floor(mergedProbability * 100.0f) / 100.0f);
         SourceSymbol temp = new SourceSymbol(sb, mergedProbability, true);
         temp.mergedSymbol_A = source1;
         temp.mergedSymbol_B = source2;
