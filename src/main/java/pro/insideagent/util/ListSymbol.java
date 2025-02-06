@@ -4,7 +4,7 @@ public class ListSymbol extends SourceSymbol {
 
     private final int symbolIndex;
 
-    protected ListSymbol(String symbolName, float symbolProbability, int symbolIndex, boolean isMerged) {
+    protected ListSymbol(String symbolName, double symbolProbability, int symbolIndex, boolean isMerged) {
         super(symbolName, symbolProbability, isMerged);
         this.symbolIndex = symbolIndex;
     }
