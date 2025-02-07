@@ -8,11 +8,11 @@ public class Huffman {
 
 
     public static void main(String[] args) {
-        HuffmanCodeList codeList = new HuffmanCodeList(5);
+        HuffmanCodeList codeList = new HuffmanCodeList(6, 8);
         midterm_LoadedDie(codeList);
         codeList.buildTree();
         codeList.traverseHuffmanList();
-        codeList.printHuffmanCodes();
+        codeList.printHuffmanCodes(true);
     }
 
     static void testSymbols_One(HuffmanCodeList codeList) {

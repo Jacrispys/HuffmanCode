@@ -13,14 +13,10 @@ public class SourceSymbol {
     protected SourceSymbol mergedSymbol_A = null;
     protected SourceSymbol mergedSymbol_B = null;
 
-    public BigInteger code = null;
+    public String code = "";
 
     public void appendBit(boolean appendOne) {
-        if (code == null) {
-            code = appendOne ? BigInteger.ONE : BigInteger.ZERO;
-            return;
-        }
-        code = code.shiftLeft(1).or(appendOne ? BigInteger.ONE : BigInteger.ZERO);
+        code += appendOne ? "1" : "0";
     }
 
     protected SourceSymbol(String symbolName, double symbolProbability, boolean isMerged) {
@@ -53,7 +49,7 @@ public class SourceSymbol {
 
     public static SourceSymbol mergeSymbols(SourceSymbol source1, SourceSymbol source2) {
         String sb = source1.getSymbolName() + "_" + source2.getSymbolName();
-        BigDecimal mergedProbability = source1.getSymbolProbability().multiply(source2.getSymbolProbability()).round(new MathContext(4, RoundingMode.DOWN));
+        BigDecimal mergedProbability = source1.getSymbolProbability().add(source2.getSymbolProbability()).round(new MathContext(4, RoundingMode.DOWN));
         SourceSymbol temp = new SourceSymbol(sb, mergedProbability, true);
         temp.mergedSymbol_A = source1;
         temp.mergedSymbol_B = source2;
