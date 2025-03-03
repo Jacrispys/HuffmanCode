@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 public class HuffmanCodeList {
     private List<ListSymbol> symbolList = new ArrayList<>();
@@ -57,7 +56,7 @@ public class HuffmanCodeList {
 
 
     public void sortHuffmanList(boolean isFirstSort) {
-        if(isFirstSort) {
+        if (isFirstSort) {
             symbolList.sort(Comparator.comparing(ListSymbol::getSymbolProbability, BigDecimal::compareTo));
         } else alternateSort();
         /*
@@ -85,14 +84,14 @@ public class HuffmanCodeList {
             final int offset = start;
 
             Future<Integer> future = executor.submit(() -> {
-               int index = Collections.binarySearch(sublist, symbol, Comparator.comparing(ListSymbol::getSymbolProbability, BigDecimal::compareTo));
-               if (index >= 0 ) return index + offset;
-               return index - offset;
+                int index = Collections.binarySearch(sublist, symbol, Comparator.comparing(ListSymbol::getSymbolProbability, BigDecimal::compareTo));
+                if (index >= 0) return index + offset;
+                return index - offset;
             });
             futures.add(future);
         }
 
-        int point =  -1;
+        int point = -1;
         for (Future<Integer> future : futures) {
             try {
                 int result = future.get();
@@ -113,9 +112,7 @@ public class HuffmanCodeList {
 
     void insertInOrder(ListSymbol symbol) {
         int i = -1;
-        if (symbolList.size() >= 750000) {
-            i = Collections.binarySearch(symbolList, symbol, Comparator.comparing(ListSymbol::getSymbolProbability, BigDecimal::compareTo));
-        } else i = parallelSearch(symbol);
+        i = Collections.binarySearch(symbolList, symbol, Comparator.comparing(ListSymbol::getSymbolProbability, BigDecimal::compareTo));
         if (i < 0) i = -(i + 1);
         symbolList.add(i, symbol);
     }
@@ -294,6 +291,7 @@ public class HuffmanCodeList {
         } else {
             sourceList.forEach(item -> System.out.println(item.getSymbolName() + ": " + item.code + " | " + item.getSymbolProbability()));
         }
+        printResults(sourceList);
         System.out.println("Total Symbols: " + sourceList.size());
     }
 
@@ -313,4 +311,31 @@ public class HuffmanCodeList {
         System.out.println("File written to: " + file.getAbsolutePath());
     }
 
+    private double log2(double x) {
+        return Math.log(x) / Math.log(2);
+    }
+
+    public void printResults(List<SourceSymbol> symbols) {
+        double avgLength = 0.0d;
+        double entropy = 0.0d;
+        for (SourceSymbol symbol : symbols) {
+            avgLength += symbol.getSymbolProbability().multiply(BigDecimal.valueOf(symbol.code.length())).doubleValue();
+            entropy += symbol.getSymbolProbability().multiply(BigDecimal.valueOf(log2(symbol.getSymbolProbability().doubleValue()))).doubleValue();
+        }
+
+        double efficiency =  (-1 * entropy) / avgLength;
+
+        System.out.println();
+        System.out.println("------------------");
+        System.out.println("Avg Length: " + avgLength);
+        System.out.println("------------------");
+        System.out.println();
+
+        System.out.println();
+        System.out.println("------------------");
+        System.out.println("Efficiency: " + efficiency);
+        System.out.println("------------------");
+        System.out.println();
+
+    }
 }
